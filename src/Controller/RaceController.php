@@ -6,6 +6,7 @@ use App\Repository\RaceRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\RaceType;
+use App\Entity\Race;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +52,27 @@ class RaceController extends AbstractController
 
         return $this->render('race/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/races/edit/{id<\d+>}', name: 'app_races_edit')]
+    public function edit(
+        Request $request,
+        EntityManagerInterface $em,
+        Race $race
+    ): Response {
+        $form = $this->createForm(RaceType::class, $race);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_races_show', ['id' => $race->getId()]);
+        }
+
+        return $this->render('race/edit.html.twig', [
+            'form' => $form,
+            'races' => $race,
         ]);
     }
 }

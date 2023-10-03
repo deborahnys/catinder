@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -24,6 +26,14 @@ class User
 
     #[ORM\Column(length: 500)]
     private ?string $picture = null;
+
+    #[ORM\ManyToMany(targetEntity: Cat::class, mappedBy: 'user')]
+    private Collection $cats;
+
+    public function __construct()
+    {
+        $this->cats = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +84,33 @@ class User
     public function setPicture(string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cat>
+     */
+    public function getCats(): Collection
+    {
+        return $this->cats;
+    }
+
+    public function addCat(Cat $cat): static
+    {
+        if (!$this->cats->contains($cat)) {
+            $this->cats->add($cat);
+            $cat->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCat(Cat $cat): static
+    {
+        if ($this->cats->removeElement($cat)) {
+            $cat->removeUser($this);
+        }
 
         return $this;
     }
