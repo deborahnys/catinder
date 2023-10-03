@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!
+{% endblock %}
+
+{% block body %}
+	{% for user in users %}
+		<li>{{ user.getPseudo }},
+						Location:
+			{{ user.getLocalisation }}
+			{{ user.getAge }}
+			years old,
+			{{ user.getPicture }}
+		</li>
+	{% endfor %}
+{% endblock %}

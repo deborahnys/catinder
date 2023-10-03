@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CatController!
+{% endblock %}
+
+{% block body %}
+	{% for cat in cats %}
+		<li>{{ cat.getRace }},
+			{{ cat.getAge }}
+			years old, Color:
+			{{ cat.getColor }}, Location:
+			{{ cat.getLocalisation }}</li>
+	{% endfor %}
+
+{% endblock %}
