@@ -6,10 +6,8 @@
 {% block body %}
 	{% for user in users %}
 		<li>{{ user.getPseudo }},
-						Location:
+						Localisation:
 			{{ user.getLocalisation }}
-			{{ user.getAge }}
-			years old,
 			{{ user.getPicture }}
 		</li>
 	{% endfor %}
