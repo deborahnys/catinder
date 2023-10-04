@@ -6,6 +6,8 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserType;
+
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +54,27 @@ class UserController extends AbstractController
 
         return $this->render('user/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/users/edit/{id<\d+>}', name: 'app_users_edit')]
+    public function edit(
+        Request $request,
+        EntityManagerInterface $em,
+        User $user
+    ): Response {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('app_users_show', ['id' => $user->getId()]);
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'form' => $form,
+            'users' => $user,
         ]);
     }
 }

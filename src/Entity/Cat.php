@@ -30,8 +30,6 @@ class Cat
     #[ORM\Column(length: 500)]
     private ?string $picture = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'cats')]
-    private Collection $user;
 
     public function __construct()
     {
