@@ -33,7 +33,6 @@ class Cat
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,30 +96,6 @@ class Cat
     public function setPicture(string $picture): static
     {
         $this->picture = $picture;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): static
-    {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        $this->user->removeElement($user);
 
         return $this;
     }
