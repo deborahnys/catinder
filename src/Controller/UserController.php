@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserType;
+
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,7 +56,6 @@ class UserController extends AbstractController
             'form' => $form,
         ]);
     }
-
 
     #[Route('/users/edit/{id<\d+>}', name: 'app_users_edit')]
     public function edit(
