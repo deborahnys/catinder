@@ -6,6 +6,7 @@ use App\Repository\CatRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CatRepository::class)]
 class Cat
@@ -14,6 +15,11 @@ class Cat
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotNull]
+    #[Assert\Length(min: 2, max: 50)]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $race = null;
@@ -31,6 +37,8 @@ class Cat
     private ?string $picture = null;
 
 
+
+
     public function __construct()
     {
     }
@@ -39,7 +47,17 @@ class Cat
     {
         return $this->id;
     }
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
     public function getRace(): ?string
     {
         return $this->race;
