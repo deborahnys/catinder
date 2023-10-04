@@ -18,7 +18,7 @@ class CatType extends AbstractType
             ->add('color')
             ->add('localisation')
             ->add('picture')
-            ->add('submit', SubmitType::class);
+            ->add('Envoyer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
