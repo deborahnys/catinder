@@ -14,7 +14,7 @@ class ColorType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('submit', SubmitType::class);
+            ->add('Envoyer', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

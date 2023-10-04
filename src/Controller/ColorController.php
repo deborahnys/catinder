@@ -70,7 +70,7 @@ class ColorController extends AbstractController
             return $this->redirectToRoute('app_colors_show', ['id' => $color->getId()]);
         }
 
-        return $this->render('race/edit.html.twig', [
+        return $this->render('color/edit.html.twig', [
             'form' => $form,
             'colors' => $color,
         ]);
