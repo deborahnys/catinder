@@ -31,16 +31,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Assert\NotNull]
+
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
+    #[Assert\NotBlank(groups: ['registration'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -51,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(min: 4, max: 255)]
     private ?string $picture = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
     public function getId(): ?int
     {
@@ -176,6 +179,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPicture(?string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
