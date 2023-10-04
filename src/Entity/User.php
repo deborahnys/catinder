@@ -54,8 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 4, max: 255)]
     private ?string $picture = null;
 
-    #[ORM\ManyToMany(targetEntity: Cat::class, mappedBy: 'user')]
-    private Collection $cats;
+  
 
     public function __construct()
     {

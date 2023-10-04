@@ -15,7 +15,6 @@ class UserType extends AbstractType
         $builder
             ->add('pseudo')
             ->add('localisation')
-            ->add('age')
             ->add('picture')
             ->add('submit', SubmitType::class);;
     }
