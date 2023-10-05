@@ -1,0 +1,41 @@
+{# templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Chats</h1>
+	<ul>
+		{% for cat in cats %}
+			<img src="{{ asset('images/marche-chat-france-164220.jpg') }}" width="300" height="200">
+			<li>{{ cat.name }}</li>
+			<li>{{ cat.race }}</li>
+			<li>{{ cat.age }}</li>
+			<li>{{ cat.localisation }}</li>
+			<button data-cat-id="{{ cat.id }}" class="like-button">Like</button>
+		{% endfor %}
+	</ul>
+
+	<script>
+		const likeButtons = document.querySelectorAll('.like-button');
+likeButtons.forEach(button => {
+button.addEventListener('click', () => {
+const catId = button.getAttribute('data-cat-id');
+
+fetch (`/UserLikeCat/${catId}`, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+}
+
+}).then(response => {
+if (response.ok) {
+alert('Cat ajouté en favori!');
+} else {
+alert('Une erreur s\'est produite lors de l\'ajout en favori.');
+}
+}).catch(error => {
+console.error('Erreur:', error);
+});
+});
+});
+	</script>
+{% endblock %}

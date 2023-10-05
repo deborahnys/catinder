@@ -7,3 +7,8 @@ controllers:
 app_cats:
   path: "/cats"
   controller: 'App\Controller\CatController::index'
+
+# config/routes.yaml
+add_favorite_cat:
+  path: "/add-favorite-cat/{catId}"
+  controller: 'App\Controller\UserLikeCatController::addFavoriteCat'
