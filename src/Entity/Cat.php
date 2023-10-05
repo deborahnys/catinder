@@ -40,11 +40,15 @@ class Cat
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'cat_id', targetEntity: UserLikeCat::class, orphanRemoval: true)]
+    private Collection $userLikeCats;
+
 
 
 
     public function __construct()
     {
+        $this->userLikeCats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,6 +134,36 @@ class Cat
     public function setUser(?user $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserLikeCat>
+     */
+    public function getUserLikeCats(): Collection
+    {
+        return $this->userLikeCats;
+    }
+
+    public function addUserLikeCat(UserLikeCat $userLikeCat): static
+    {
+        if (!$this->userLikeCats->contains($userLikeCat)) {
+            $this->userLikeCats->add($userLikeCat);
+            $userLikeCat->setCat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLikeCat(UserLikeCat $userLikeCat): static
+    {
+        if ($this->userLikeCats->removeElement($userLikeCat)) {
+            // set the owning side to null (unless already changed)
+            if ($userLikeCat->getCat() === $this) {
+                $userLikeCat->setCat(null);
+            }
+        }
 
         return $this;
     }

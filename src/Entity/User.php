@@ -60,12 +60,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Cat::class)]
     private Collection $cats;
 
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: UserLikeCat::class, orphanRemoval: true)]
+    private Collection $userLikeCats;
+
+
     public function __construct()
     {
-        $this->cats = new ArrayCollection();
+        $this->userLikeCats = new ArrayCollection();
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->Pseudo;
     }
     public function getId(): ?int
@@ -232,6 +237,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($cat->getUser() === $this) {
                 $cat->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserLikeCat>
+     */
+    public function getUserLikeCats(): Collection
+    {
+        return $this->userLikeCats;
+    }
+
+    public function addUserLikeCat(UserLikeCat $userLikeCat): static
+    {
+        if (!$this->userLikeCats->contains($userLikeCat)) {
+            $this->userLikeCats->add($userLikeCat);
+            $userLikeCat->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLikeCat(UserLikeCat $userLikeCat): static
+    {
+        if ($this->userLikeCats->removeElement($userLikeCat)) {
+            // set the owning side to null (unless already changed)
+            if ($userLikeCat->getUser() === $this) {
+                $userLikeCat->setUser(null);
             }
         }
 
