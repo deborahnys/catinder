@@ -36,6 +36,10 @@ class Cat
     #[ORM\Column(length: 500)]
     private ?string $picture = null;
 
+    #[ORM\ManyToOne(inversedBy: 'cats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
 
 
 
@@ -114,6 +118,18 @@ class Cat
     public function setPicture(string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -24,7 +24,7 @@ class UserCrudController extends AbstractCrudController
             TextField::new('pseudo'),
             TextField::new('email'),
             TextField::new('localisation'),
-            BooleanField::new('is verified'),
+            BooleanField::new('is_verified'),
 
         ];
     }
