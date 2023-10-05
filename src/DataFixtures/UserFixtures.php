@@ -21,6 +21,16 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $user = new User();
+        $user->setPseudo('Deb');  // Assurez-vous que votre entité User a bien une méthode setPseudo
+        $user->setEmail('example@domain.com');
+        $user->setRoles(['ROLE_USER']);
+        $user->setLocalisation('Paris');
+        $user->setPicture('examplePictureUrl');
+        $user->setPlainPassword('examplePass');  // Assurez-vous que ceci est haché avant la persistance dans la base de données
+
+        $manager->persist($user);
+
         for ($i = 0; $i < 10; $i++) {
             $user = new User();
             $user->setPseudo($this->faker->userName());
