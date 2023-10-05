@@ -7,6 +7,7 @@ use App\Entity\Cat;
 use App\Entity\Color;
 use App\Entity\Race;
 use App\Entity\User;
+use App\Entity\UserLikeCat;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -35,5 +36,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Race', 'fas fa-tags', Race::class);
         yield MenuItem::linkToCrud('Color', 'fas fa-palette', Color::class);
         yield MenuItem::linkToCrud('User', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('UserLikeCat', 'fas fa-heart', UserLikeCat::class);
     }
 }
