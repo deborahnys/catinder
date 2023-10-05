@@ -19,21 +19,15 @@
 likeButtons.forEach(button => {
 button.addEventListener('click', () => {
 const catId = button.getAttribute('data-cat-id');
-
-fetch (`/UserLikeCat/${catId}`, {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-}
-
-}).then(response => {
-if (response.ok) {
-alert('Cat ajouté en favori!');
+fetch (`/like_cat/${catId}`, {method: 'POST'}).then(response => response.json()).then(data => {
+if (data.success) {
+alert('Chat ajouté en favori!');
 } else {
 alert('Une erreur s\'est produite lors de l\'ajout en favori.');
 }
 }).catch(error => {
 console.error('Erreur:', error);
+
 });
 });
 });

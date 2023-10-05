@@ -3,29 +3,55 @@
 namespace App\Controller;
 
 use App\Entity\UserLikeCat;
-use App\Entity\User;
 use App\Entity\Cat;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class UserLikeCatController extends AbstractController
 {
-    #[Route("/favorite/{catId}", name: "add_favorite_cat")]
+    private $security;
 
-    public function addFavoriteCat(
-        User $user,
-        Request $request
-    ): Response {
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
+    #[Route('/like_cat/{catId}', name: 'like_cat', methods: ['POST'])]
+    public function likeCat(int $catId, EntityManagerInterface $entityManager): Response
+    {
         $user = $this->getUser();
 
         if (!$user) {
-            return $this->redirectToRoute('login');
+            return new JsonResponse(['success' => false, 'message' => 'User not logged in!']);
         }
-        return $this->redirectToRoute('cats');
+
+        $cat = $entityManager->getRepository(Cat::class)->find($catId);
+
+        if (!$cat) {
+            return new JsonResponse(['success' => false, 'message' => 'Cat not found!']);
+        }
+
+        $existingLike = $entityManager->getRepository(UserLikeCat::class)->findOneBy([
+            'user' => $user,
+            'cat' => $cat
+        ]);
+        if ($existingLike) {
+            return new JsonResponse(['success' => false, 'message' => 'You already liked this cat!']);
+        }
+
+        $userLikeCat = new UserLikeCat();
+        $userLikeCat->setUser($user);
+        $userLikeCat->setCat($cat);
+        $userLikeCat->setIsLiked(true);
+
+        $entityManager->persist($userLikeCat);
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => true, 'message' => 'Cat liked!']);
     }
 }
