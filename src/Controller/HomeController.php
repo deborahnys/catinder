@@ -22,8 +22,10 @@ class HomeController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
+        $cats = $catRepository->findNotLikedCatsByUser($user);
+
         return $this->render('home/index.html.twig', [
-            'cats' => $catRepository->findAll(),
+            'cats' => $cats,
         ]);
     }
 }
