@@ -21,7 +21,7 @@ class CatRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Cat::class);
     }
-    public function findNotLikedCatsByUser(User $user): array
+    public function findNotLinkedCatsByUser(User $user): array
     {
         $queryBuilder = $this->createQueryBuilder('c');
 
