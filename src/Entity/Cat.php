@@ -22,14 +22,16 @@ class Cat
     #[Assert\Length(min: 2, max: 50)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $race = null;
+    #[ORM\ManyToOne(inversedBy: 'cats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Race $race = null;
 
     #[ORM\Column]
     private ?int $age = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $color = null;
+    #[ORM\ManyToOne(inversedBy: 'cats')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Color $color = null;
 
     #[ORM\Column(length: 255)]
     private ?string $localisation = null;
@@ -67,15 +69,14 @@ class Cat
 
         return $this;
     }
-    public function getRace(): ?string
+    public function getRace(): ?Race
     {
         return $this->race;
     }
 
-    public function setRace(string $race): static
+    public function setRace(?Race $race): static
     {
         $this->race = $race;
-
         return $this;
     }
 
@@ -91,12 +92,12 @@ class Cat
         return $this;
     }
 
-    public function getColor(): ?string
+    public function getColor(): ?Color
     {
         return $this->color;
     }
 
-    public function setColor(string $color): static
+    public function setColor(?Color $color): self
     {
         $this->color = $color;
 
