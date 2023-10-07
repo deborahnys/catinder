@@ -17,31 +17,41 @@ class UserFixtures extends Fixture
     public function __construct()
     {
         $this->faker = Factory::create();
+        $this->faker->seed(1234);
     }
 
     public function load(ObjectManager $manager): void
     {
         $user = new User();
-        $user->setPseudo('Deb');
-        $user->setEmail('example@domain.com');
-        $user->setRoles(['ROLE_USER']);
+        $user->setPseudo('admin');
+        $user->setEmail('admin@dcatinder.com');
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setLocalisation('Paris');
         $user->setPicture('examplePictureUrl');
-        $user->setPlainPassword('examplePass');
+        $user->setPlainPassword('admin');
         $manager->persist($user);
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $user = new User();
-            $user->setPseudo($this->faker->userName());
+            $user->setPseudo($this->faker->firstNameMale());
             $user->setEmail($this->faker->safeEmail());
             $user->setRoles(['ROLE_USER']);
             $user->setLocalisation($this->faker->city());
-            $user->setPicture($this->faker->imageUrl());
+            $user->setPicture('https://randomuser.me/api/portraits/men/' . rand(0, 99) . '.jpg');
             $user->setPlainPassword('password');
 
             $manager->persist($user);
         }
-
+        for ($i = 0; $i < 100; $i++) {
+            $user = new User();
+            $user->setPseudo($this->faker->firstNameFemale());
+            $user->setEmail($this->faker->safeEmail());
+            $user->setRoles(['ROLE_USER']);
+            $user->setLocalisation($this->faker->city());
+            $user->setPicture('https://randomuser.me/api/portraits/women/' . rand(0, 99) . '.jpg');
+            $user->setPlainPassword('password');
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }

@@ -6,6 +6,7 @@ use App\Entity\Cat;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -27,8 +28,10 @@ class CatCrudController extends AbstractCrudController
             IntegerField::new('age'),
             TextField::new('color'),
             TextField::new('localisation'),
-            AssociationField::new('user')->autocomplete()
-
+            AssociationField::new('user')->autocomplete(),
+            ImageField::new('picture')
+                ->setBasePath('')
+                ->setRequired(false),
         ];
     }
 }

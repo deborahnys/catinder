@@ -5,7 +5,7 @@
 	<h1>Chats</h1>
 	<ul>
 		{% for cat in cats %}
-			<img src="{{ asset('images/marche-chat-france-164220.jpg') }}" width="300" height="200">
+			<img src="{{ cat.picture }}" width="300" height="200" alt="{{ cat.name }}">
 			<li>{{ cat.name }}</li>
 			<li>{{ cat.race }}</li>
 			<li>{{ cat.age }}</li>
