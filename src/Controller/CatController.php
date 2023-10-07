@@ -79,4 +79,63 @@ class CatController extends AbstractController
             'cats' => $cat,
         ]);
     }
+    #[Route('/home', name: 'home')]
+    public function showSingleCat(CatRepository $catRepository): Response
+    {
+        // Obtenez l'utilisateur courant
+        $user = $this->getUser();
+
+        // Vérifiez si l'utilisateur est connecté
+        if (!$user) {
+            throw $this->createAccessDeniedException('User not authenticated');
+        }
+
+        // Obtenez un chat qui n'a pas encore été "liké" par cet utilisateur
+        $notLinkedCats = $catRepository->findNotLinkedCatsByUser($user);
+
+        // Si tous les chats ont été likés, cette liste pourrait être vide, donc gérez ce cas
+        if (empty($notLinkedCats)) {
+            throw $this->createNotFoundException('No more cats available');
+        }
+
+        // Sélectionnez un chat au hasard parmi ceux qui n'ont pas été likés
+        $cat = $notLinkedCats[array_rand($notLinkedCats)];
+
+        return $this->render('home/index.html.twig', [
+            'cat' => $cat,
+        ]);
+    }
+
+    #[Route('/get_next_cat', name: 'get_next_cat', methods: ['GET'])]
+    public function getNextCat(CatRepository $catRepository): JsonResponse
+    {
+        // Obtenez l'utilisateur courant
+        $user = $this->getUser();
+
+        // Vérifiez si l'utilisateur est connecté
+        if (!$user) {
+            return $this->json(['error' => 'User not authenticated'], 401);
+        }
+
+        // Obtenez un chat qui n'a pas encore été "liké" par cet utilisateur
+        $notLinkedCats = $catRepository->findNotLinkedCatsByUser($user);
+
+        // Vous pouvez sélectionner un chat au hasard parmi ceux non likés
+        // Si tous les chats ont été likés, cette liste pourrait être vide, donc gérez ce cas
+        if (empty($notLinkedCats)) {
+            return $this->json(['error' => 'No more cats available'], 404);
+        }
+
+        // Sélectionnez un chat au hasard parmi ceux qui n'ont pas été likés
+        $cat = $notLinkedCats[array_rand($notLinkedCats)];
+
+        return $this->json([
+            'id' => $cat->getId(),
+            'name' => $cat->getName(),
+            'race' => $cat->getRace(),
+            'age' => $cat->getAge(),
+            'localisation' => $cat->getLocalisation(),
+            'picture' => $cat->getPicture(),
+        ]);
+    }
 }

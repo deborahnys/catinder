@@ -4,32 +4,55 @@
 {% block body %}
 	<h1>Chats</h1>
 	<ul>
-		{% for cat in cats %}
-			<img src="{{ cat.picture }}" width="300" height="200" alt="{{ cat.name }}">
-			<li>{{ cat.name }}</li>
-			<li>{{ cat.race }}</li>
-			<li>{{ cat.age }}</li>
-			<li>{{ cat.localisation }}</li>
-			<button data-cat-id="{{ cat.id }}" class="like-button">Like</button>
-		{% endfor %}
+		<img src="{{ cat.picture }}" width="300" height="200" alt="{{ cat.name }}" id="cat-picture">
+		<li id="cat-name">{{ cat.name }}</li>
+		<li id="cat-race">{{ cat.race }}</li>
+		<li id="cat-age">{{ cat.age }}</li>
+		<li id="cat-localisation">{{ cat.localisation }}</li>
+		<button data-cat-id="{{ cat.id }}" class="like-button">Like</button>
 	</ul>
 
+	<div id="flash-message" class="hidden">
+		<p id="flash-content"></p>
+	</div>
+
 	<script>
-		const likeButtons = document.querySelectorAll('.like-button');
-likeButtons.forEach(button => {
-button.addEventListener('click', () => {
-const catId = button.getAttribute('data-cat-id');
+		document.querySelector('.like-button').addEventListener('click', () => {
+const catId = document.querySelector('.like-button').getAttribute('data-cat-id');
 fetch (`/like_cat/${catId}`, {method: 'POST'}).then(response => response.json()).then(data => {
 if (data.success) {
-alert('Chat ajouté en favori!');
+displayFlashMessage('Chat ajouté en favori!', 'success');
+return fetch('/get_next_cat');
 } else {
-alert('Une erreur s\'est produite lors de l\'ajout en favori.');
+displayFlashMessage('Une erreur s\'est produite lors de l\'ajout en favori.', 'error');
+throw new Error('Failed to like cat');
 }
-}).catch(error => {
-console.error('Erreur:', error);
+}).then(response => response.json()).then(data => {
+document.getElementById('cat-picture').src = data.picture;
+document.getElementById('cat-name').textContent = data.name;
+document.getElementById('cat-race').textContent = data.race;
+document.getElementById('cat-age').textContent = data.age;
+document.getElementById('cat-localisation').textContent = data.localisation;
+document.querySelector('.like-button').setAttribute('data-cat-id', data.id);
+}).catch(error => console.error('Erreur:', error));
+});
 
-});
-});
-});
+function displayFlashMessage(message, type) {
+const flashMessage = document.getElementById('flash-message');
+const flashContent = document.getElementById('flash-content');
+
+flashMessage.classList.remove('hidden', 'fadeOut');
+flashContent.textContent = message;
+
+if (type === 'success') {
+flashMessage.style.backgroundColor = '#4CAF50';
+} else if (type === 'error') {
+flashMessage.style.backgroundColor = '#f44336';
+}
+
+setTimeout(() => {
+flashMessage.classList.add('hidden');
+}, 3000);
+}
 	</script>
 {% endblock %}

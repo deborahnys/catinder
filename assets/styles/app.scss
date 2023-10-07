@@ -1,0 +1,24 @@
+$primary : darken(pink, 20%);
+@import "~bootstrap/scss/bootstrap";
+$flash-message-color: #fff;
+
+#flash-message {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    z-index: 1000;
+    border-radius: 4px;
+    color: $flash-message-color;
+    margin: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+};
+#flash-message.fadeOut {
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+}
