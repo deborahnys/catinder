@@ -1,4 +1,4 @@
-/* export function displayFlashMessage(message, type) {
+export function displayFlashMessage(message, type) {
   const flashMessage = document.getElementById("flash-message");
   const flashContent = document.getElementById("flash-content");
 
@@ -14,4 +14,4 @@
   setTimeout(() => {
     flashMessage.classList.add("hidden");
   }, 3000);
-} */
+}

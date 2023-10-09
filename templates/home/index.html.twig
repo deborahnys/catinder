@@ -2,8 +2,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-	<script src="{{ asset('./assets/displayFlashMessage.js') }}"></script>
-	<script src="{{ asset('./assets/catButton.js') }}"></script>
+
 
 	<h1>Chats</h1>
 	<ul>
@@ -20,64 +19,4 @@
 	<div id="flash-message" class="hidden">
 		<p id="flash-content"></p>
 	</div>
-
-	<script>
-		document.querySelector('.like-button').addEventListener('click', () => {
-const catId = document.querySelector('.like-button').getAttribute('data-cat-id');
-fetch (`/like_cat/${catId}`, {method: 'POST'}).then(response => response.json()).then(data => {
-if (data.success) {
-displayFlashMessage('Chat ajouté en favori!', 'success');
-return fetch('/get_next_cat');
-} else {
-displayFlashMessage('Une erreur s\'est produite lors de l\'ajout en favori.', 'error');
-throw new Error('Failed to like cat');
-}
-}).then(response => response.json()).then(data => {
-document.getElementById('cat-picture').src = data.picture;
-document.getElementById('cat-name').textContent = data.name;
-document.getElementById('cat-race').textContent = data.race;
-document.getElementById('cat-age').textContent = data.age;
-document.getElementById('cat-localisation').textContent = data.localisation;
-document.querySelector('.like-button').setAttribute('data-cat-id', data.id);
-})
-});
-
-document.querySelector('.dislike-button').addEventListener('click', () => {
-const catId = document.querySelector('.dislike-button').getAttribute('data-cat-id');
-fetch (`/dislike_cat/${catId}`, {method: 'POST'}).then(response => response.json()).then(data => {
-if (data.success) {
-displayFlashMessage('Chat non ajouté en favori!', 'success');
-return fetch('/get_next_cat');
-} else {
-displayFlashMessage('Une erreur s\'est produite lors du non ajout en favori.', 'error');
-throw new Error('Failed to dislike cat');
-}
-}).then(response => response.json()).then(data => {
-document.getElementById('cat-picture').src = data.picture;
-document.getElementById('cat-name').textContent = data.name;
-document.getElementById('cat-race').textContent = data.race;
-document.getElementById('cat-age').textContent = data.age;
-document.getElementById('cat-localisation').textContent = data.localisation;
-document.querySelector('.dislike-button').setAttribute('data-cat-id', data.id);
-})
-});
-
-function displayFlashMessage(message, type) {
-const flashMessage = document.getElementById('flash-message');
-const flashContent = document.getElementById('flash-content');
-
-flashMessage.classList.remove('hidden', 'fadeOut');
-flashContent.textContent = message;
-
-if (type === 'success') {
-flashMessage.style.backgroundColor = '#4CAF50';
-} else if (type === 'error') {
-flashMessage.style.backgroundColor = '#f44336';
-}
-
-setTimeout(() => {
-flashMessage.classList.add('hidden');
-}, 3000);
-}
-	</script>
 {% endblock %}
