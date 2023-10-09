@@ -2,6 +2,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	<script src="{{ asset('./assets/displayFlashMessage.js') }}"></script>
+	<script src="{{ asset('./assets/catButton.js') }}"></script>
+
 	<h1>Chats</h1>
 	<ul>
 		<img src="{{ cat.picture }}" width="300" height="200" alt="{{ cat.name }}" id="cat-picture">
@@ -10,6 +13,8 @@
 		<li id="cat-age">{{ cat.age }}</li>
 		<li id="cat-localisation">{{ cat.localisation }}</li>
 		<button data-cat-id="{{ cat.id }}" class="like-button">Like</button>
+		<button data-cat-id="{{ cat.id }}" class="dislike-button">Dislike</button>
+
 	</ul>
 
 	<div id="flash-message" class="hidden">
@@ -34,7 +39,27 @@ document.getElementById('cat-race').textContent = data.race;
 document.getElementById('cat-age').textContent = data.age;
 document.getElementById('cat-localisation').textContent = data.localisation;
 document.querySelector('.like-button').setAttribute('data-cat-id', data.id);
-}).catch(error => console.error('Erreur:', error));
+})
+});
+
+document.querySelector('.dislike-button').addEventListener('click', () => {
+const catId = document.querySelector('.dislike-button').getAttribute('data-cat-id');
+fetch (`/dislike_cat/${catId}`, {method: 'POST'}).then(response => response.json()).then(data => {
+if (data.success) {
+displayFlashMessage('Chat non ajouté en favori!', 'success');
+return fetch('/get_next_cat');
+} else {
+displayFlashMessage('Une erreur s\'est produite lors du non ajout en favori.', 'error');
+throw new Error('Failed to dislike cat');
+}
+}).then(response => response.json()).then(data => {
+document.getElementById('cat-picture').src = data.picture;
+document.getElementById('cat-name').textContent = data.name;
+document.getElementById('cat-race').textContent = data.race;
+document.getElementById('cat-age').textContent = data.age;
+document.getElementById('cat-localisation').textContent = data.localisation;
+document.querySelector('.dislike-button').setAttribute('data-cat-id', data.id);
+})
 });
 
 function displayFlashMessage(message, type) {

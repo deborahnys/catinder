@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h1>Chats en Favoris</h1>
+
+	<ul>
+		{% for cat in favoriteCats %}
+			<li>
+				<img src="{{ cat.picture }}" width="300" height="200" alt="{{ cat.name }}">
+				<p>Nom:
+					{{ cat.name }}</p>
+				<p>Race:
+					{{ cat.race }}</p>
+				<p>Âge:
+					{{ cat.age }}</p>
+				<p>Localisation:
+					{{ cat.localisation }}</p>
+			</li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}

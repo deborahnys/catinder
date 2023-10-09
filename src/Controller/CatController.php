@@ -132,7 +132,7 @@ class CatController extends AbstractController
         return $this->json([
             'id' => $cat->getId(),
             'name' => $cat->getName(),
-            'race' => $cat->getRace(),
+            'race' => $cat->getRace()->getTitle(),
             'age' => $cat->getAge(),
             'localisation' => $cat->getLocalisation(),
             'picture' => $cat->getPicture(),
