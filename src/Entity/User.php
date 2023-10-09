@@ -62,6 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $cats;
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: UserLikeCat::class, orphanRemoval: true)]
+
     private Collection $userLikeCats;
 
 

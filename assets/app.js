@@ -7,6 +7,7 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import "./styles/app.scss";
+import "./catButton.js";
 document.addEventListener("DOMContentLoaded", (event) => {
   setTimeout(() => {
     const flashMessage = document.getElementById("flash-message");
