@@ -1,17 +1,24 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="#"></a>
-	<div class="collapse navbar-collapse" id="navbarNav">
-		<ul class="navbar-nav">
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Search cat
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="./favorites">My favorites</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="./user/{pseudo}">My profil</a>
-			</li>
-		</ul>
-	</div>
-</nav>
+{% if is_granted('ROLE_USER') %}
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand"></a>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				{% set navItems = [
+                	{'route': 'app_home', 'image': 'search', 'alt': 'Search cat'},
+            		{'route': 'favorites', 'image': 'favorites', 'alt': 'My favorites'},
+                	{'route': 'app_user_profile', 'image': 'profile', 'alt': 'My profile', 'params': {'pseudo': app.user.pseudo}}
+                ] %}
+
+				{% for item in navItems %}
+					{% set isActive = item.route == app.request.attributes.get('_route') %}
+					<li class="nav-item{{ isActive ? ' active' : '' }}">
+						<a class="nav-link" href="{{ path(item.route, item.params|default({})) }}">
+							<img src="{{ asset('images/navbar/' ~ item.image ~ (isActive ? '_active' : '_inactive') ~ '.png') }}" alt="{{ item.alt }}">
+						</a>
+					</li>
+				{% endfor %}
+
+			</ul>
+		</div>
+	</nav>
+{% endif %}

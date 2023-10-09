@@ -22,3 +22,62 @@ $flash-message-color: #fff;
     transition: opacity 1s ease-in-out;
     opacity: 0;
 }
+$navbar-height: 60px;
+$navbar-background-color: #ffffff;
+$navbar-padding: 10px;
+$navbar-shadow-color: rgba(0, 0, 0, 0.1);
+
+.navbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: $navbar-background-color;
+    z-index: 1000;
+    padding: $navbar-padding;
+    box-shadow: 0px -2px 10px $navbar-shadow-color;
+  
+    .navbar-nav {
+        width: 100%;
+        display: flex;
+        justify-content: space-around; 
+
+        .nav-item {
+            flex-grow: 1;
+            text-align: center; 
+
+            .nav-link img {
+                width: 10%; 
+                height: auto;
+            }
+        }
+    }
+}
+
+body {
+    margin-bottom: $navbar-height;
+}
+$top-bar-height: 70px;
+$top-bar-background-color: #ffffff;
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: $top-bar-height;
+    background-color: $top-bar-background-color;
+    z-index: 1000; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+
+    .logo {
+        height: 120px;
+        width: auto;
+    }
+    
+}
+
+body {
+    margin-top: $top-bar-height; 
+}

@@ -86,7 +86,6 @@ class UserController extends AbstractController
         Security $security
 
     ): Response {
-        // Récupérez l'utilisateur actuellement authentifié
         $user = $security->getUser();
 
         return $this->render('user/showProfile.html.twig', [

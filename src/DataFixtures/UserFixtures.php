@@ -24,7 +24,7 @@ class UserFixtures extends Fixture
     {
         $user = new User();
         $user->setPseudo('admin');
-        $user->setEmail('admin@dcatinder.com');
+        $user->setEmail('admin@catinder.com');
         $user->setRoles(['ROLE_ADMIN']);
         $user->setLocalisation('Paris');
         $user->setPicture('examplePictureUrl');

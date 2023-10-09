@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const flashMessage = document.getElementById("flash-message");
     if (flashMessage) {
       flashMessage.classList.add("fadeOut");
-      // Après l'animation, cachons vraiment le message
       flashMessage.addEventListener(
         "transitionend",
         () => {
