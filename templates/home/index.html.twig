@@ -11,8 +11,8 @@
 		<li id="cat-race">{{ cat.race }}</li>
 		<li id="cat-age">{{ cat.age }}</li>
 		<li id="cat-localisation">{{ cat.localisation }}</li>
-		<button data-cat-id="{{ cat.id }}" class="like-button">Like</button>
-		<button data-cat-id="{{ cat.id }}" class="dislike-button">Dislike</button>
+		<img src="{{ asset('images/actionbuttons/dislike.png') }}" data-cat-id="{{ cat.id }}" class="dislike-button" alt="Dislike" width="50" height="50">
+		<img src="{{ asset('images/actionbuttons/like.png') }}" data-cat-id="{{ cat.id }}" class="like-button" alt="Like" width="50" height="50">
 
 	</ul>
 
